@@ -1,6 +1,7 @@
 import requests
 import os
 import json
+import time
 from tqdm import tqdm
 
 API_KEY = os.getenv('MOVIE_API_KEY')
@@ -14,11 +15,18 @@ def save_j(file_path, data):
 def data2json(year=2015):
     file_path = f'/home/kim1/data/movies/year={year}/data.json'
     base_url = f"http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key={API_KEY}&openStartDt={year}&openEndDt={year}"
+    
+    if os.path.exists(file_path):
+        print("이미 해당 정보가 존재합니다")
+        return True
+
     all_data = [ ]
     for page in tqdm(range(1,11)):
+        time.sleep(1)
         data = requests.get(f"{base_url}&page={page}")
         j = data.json()
-        all_data.append(j)
+        d = j['movieListResult']['movieList']
+        all_data.append(d)
         print(all_data)
         save_j(file_path, all_data)
 
