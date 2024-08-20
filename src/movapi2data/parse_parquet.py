@@ -1,11 +1,12 @@
-
 from pyspark.sql import SparkSession
 
 # SparkSession 생성
 spark = SparkSession.builder.appName("Dynamic Schema Example").getOrCreate()
 
 # pyspark 에서 multiline(배열) 구조 데이터 읽기
-jdf = spark.read.option("multiline","true").json('/home/kim1/data/movies/year=2015/data.json')
+#jdf = spark.read.option("multiline","true").json('/home/kim1/data/movies/year=2015/data.json')
+
+jdf = spark.read.option("multiline","true").json('/home/kim1/tmp/t_data/mvstar/data/movies/year=2015/data.json')
 
 #jdf.show()
 
@@ -20,12 +21,12 @@ fdf = ccdf.filter(ccdf.company_count > 1).filter(ccdf.directors_count > 2)
 
 # 2015년 movieCd 20141663 인 영화는 company_count = 2, directors_count = 3 임
 
-fdf.collect()[0]['movieCd']
-fdf.collect()[0]['companys'][0]['companyCd']
-fdf.collect()[0]['companys'][0]['companyNm']
+#fdf.collect()[0]['movieCd']
+#fdf.collect()[0]['companys'][0]['companyCd']
+#fdf.collect()[0]['companys'][0]['companyNm']
 
 # 펼치기
-from pyspark.sql.functions import explode, col, size
+from pyspark.sql.functions import explode, col, size, explode_outer
 edf = fdf.withColumn("company", explode_outer("companys"))
 edf.show()
 

@@ -13,7 +13,7 @@ def save_j(file_path, data):
         json.dump(data, f, indent=4, ensure_ascii=False)
 
 def data2json(year=2015):
-    file_path = f'/home/kim1/data/movies/year={year}/data.json'
+    file_path = f'/home/kim1/tmp/t_data/mvstar/data/movies/year={year}/data.json"
     base_url = f"http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key={API_KEY}&openStartDt={year}&openEndDt={year}"
     
     if os.path.exists(file_path):
